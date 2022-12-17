@@ -12,7 +12,7 @@
 
 <script>
 import gSearch from '@/components/gSearch.vue'
-import threeGraph from '@/components/threegraph.vue'
+import threeGraph from '@/components/d3graph.vue'
 
 export default {
   name: 'threeView',

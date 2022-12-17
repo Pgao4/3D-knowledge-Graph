@@ -84,7 +84,7 @@ export default {
       nodes: [],
       links: [],
       /* eslint-disable */
-      colors: ['#55cccc', '#aaaaff', '#4e88af', '#ca635f','#FFC0CB', '#BA55D3', '#1E90FF', '#7FFFD4','#FFFF00'],
+      colors: ['#FFE4B5', '#aaaaff', '#4e88af', '#ca635f','#FFC0CB', '#BA55D3', '#1E90FF', '#7FFFD4','#FFFF00'],
       states: [],
       selectNodeData: {}, 
       isNodeClicked: false, 
@@ -286,7 +286,7 @@ export default {
         .data(this.links)
         .join("text")
         .style('text-anchor','middle')
-        .style('fill', '#fff')
+        .style('fill', '#000')
         .style('font-size', '12px')
         .text(d => d.properties.name)
 
@@ -351,7 +351,7 @@ export default {
         .data(this.nodes)
         .enter()
         .append("text").attr("font-size", () => 14)
-        .attr("fill", () => '#fff')
+        .attr("fill", () => '#000000')
         .attr('name', d => d.properties.name)
         .attr("text-anchor", "middle")
         .attr('x', function (d) {
@@ -669,7 +669,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/plugins/d3-context-menu';
+// @import '@/plugins/d3-context-menu';
 $opacity: 0.15;
 $activeColor: #1E90FF;  
 svg {
@@ -779,8 +779,8 @@ svg {
   left: 40px;
   .gState span {
     display: inline-block;
-    border: 1px solid #fff;
-    color: #fff;
+    border: 1px solid #000;
+    color: #000;
     padding: 6px 10px;
     border-radius: 4px;
     font-size: 14px;
@@ -810,7 +810,7 @@ svg {
   .node-card {
     border: 1px solid #9faecf;
     background-color: #00aeff6b;
-    color: #fff;
+    color: #000;
     text-align: left;
     .el-card__header {
       border-bottom: 1px solid #50596d;

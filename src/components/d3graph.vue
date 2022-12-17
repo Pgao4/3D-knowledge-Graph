@@ -66,7 +66,7 @@ export default {
       nodes: [],
       links: [],
       states: [],
-      nodeColors: ['#1E90FF', '#FFFFFF'],
+      nodeColors: ['#FFE4B5', '#FFFFFF'],
       selectNodeData: {}, 
       temp: {}, 
       dialogFormVisible: false,
@@ -242,7 +242,7 @@ export default {
   .node-card {
     border: 1px solid #9faecf;
     background-color: #00aeff9f;
-    color: #fff;
+    color: #000;
     text-align: left;
     .el-card__header {
       border-bottom: 1px solid #50596d;
