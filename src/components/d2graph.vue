@@ -1,8 +1,20 @@
 <template>
   <div>
     <div id="mode">
+      <h3>Node Search</h3>
       <div class="gState" style="margin-bottom: 20px;">
+        <span
+          @click="changeTextState(0)"
+          :class="{ active: isShowText }"
+          style="border-top-right-radius:0;border-bottom-right-radius:0;"
+        >Show relationship</span>
+        <span
+          @click="changeTextState(2)"
+          :class="{ active: textState === 2 }"
+          style="border-top-left-radius:0;border-bottom-left-radius:0;position:relative;left:-5px;"
+        >Hide relationship</span>
       </div>
+      <el-input @input="searchKeyWords" v-model="keywords" clearable placeholder="Please input keywords" />
       <p class="font-sky" style="text-align: left;">
         <strong>Number of nodes:{{ nodes.length }}</strong>
         <br>
@@ -84,15 +96,24 @@ export default {
       nodes: [],
       links: [],
       /* eslint-disable */
-      colors: ['#FFE4B5', '#aaaaff', '#4e88af', '#ca635f','#FFC0CB', '#BA55D3', '#1E90FF', '#7FFFD4','#FFFF00'],
+      colors: ['#55cccc', '#aaaaff', '#4e88af', '#ca635f','#FFC0CB', '#BA55D3', '#1E90FF', '#7FFFD4','#FFFF00'],
       states: [],
       selectNodeData: {}, 
       isNodeClicked: false, 
       temp: {}, 
       dialogFormVisible: false,
       nodeObjMap: {
-        'name': 'Name',
-        'id': 'ID'
+          "sex": "Sex",
+          "degree": "Degree",
+          "Label": "Label",
+          "ageGroup": "Agegroup",
+          "id": "Id",
+          "affected": "Affected",
+          "age": "Age",
+          "morphological": "Morphological",
+          "code": "Code",
+          "term": "Term",
+          "umls_type": "Umls_type"
       }
     }
   },
@@ -213,6 +234,78 @@ export default {
         this.d3render()
       } else {
         this.$message.error('Hide graph after displaying all nodes')
+      }
+    },
+    // Search nodes with keywords
+    searchKeyWords (value) {
+      // If the input is null, then show all nodes
+      if (this.keywords === '') {
+        this.clearGraphStyle()
+      }
+      // Otherwise search nodes
+      else {
+        var name = this.keywords
+        this.svgDom.select('.nodes').selectAll('circle').attr('class', d => {
+          // Input the id name.
+          if (d.properties.name.indexOf(name) >= 0) {
+              return 'fixed'
+          } else {
+            // Optimization:show all nodes that are related to the current search node
+            // Determine the startinf bode of links
+            // graph=data
+            for (var i = 0; i < this.links.length; i++) {
+              if ((this.links[i]['source'].properties.name.indexOf(name) >= 0) && 
+                (this.links[i]['target'].id == d.id)) {
+                  return 'active'
+              }
+              if ((this.links[i]['target'].properties.name.indexOf(name) >= 0) && 
+                (this.links[i]['source'].id == d.id)) {
+                  return 'active'
+              }
+            }
+            return 'inactive' 
+          }
+        })
+        // Search texts
+        this.svgDom.select('.texts').selectAll('text').attr('class', d => {
+          if (d.properties.name.indexOf(name) >= 0) {
+              return ''
+          } else {
+            // Optimization:show all nodes that are related to the current search node
+            // Determine the startinf bode of links
+            for (var i = 0; i < this.links.length; i++) {
+              if ((this.links[i]['source'].properties.name.indexOf(name) >= 0) && 
+                (this.links[i]['target'].id == d.id)) {
+                  return ''
+              }
+              if ((this.links[i]['target'].properties.name.indexOf(name) >= 0) && 
+                (this.links[i]['source'].id == d.id)) {
+                return ''
+              }
+            }
+            return 'inactive'
+          }
+        })
+        // Search links
+        this.svgDom.select(".links").selectAll('line').attr('class', d => {
+          if ((d.source.properties.name.indexOf(name) >= 0) || 
+            (d.target.properties.name.indexOf(name) >= 0) 
+            ) {
+              return ''
+            } else {
+              return 'inactive'
+            }
+        })
+        // Search linkTexts
+        this.svgDom.select(".linkTexts").selectAll('text').attr('class', d => {
+          if ((d.source.properties.name.indexOf(name) >= 0) || 
+            (d.target.properties.name.indexOf(name) >= 0) 
+            ) {
+              return ''
+            } else {
+              return 'inactive' 
+            }
+        })
       }
     },
     // d3 initial

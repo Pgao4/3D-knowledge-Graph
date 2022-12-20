@@ -27,9 +27,9 @@ export default {
         nodes: [],
         links: []
       },
-      names: ['Role'],
-      labels: ['role'],
-      linkTypes: ['']
+      names: ['Male', 'Female', 'Phenotype'],
+      labels: ['Male', 'Female', 'Phenotype'],
+      linkTypes: ['', 'HAS']
     }
   },
   methods: {
@@ -72,8 +72,6 @@ export default {
           })
         }
       }
-      console.log(nodes)
-      console.log(links)
       this.data = { nodes, links }
     }
   }

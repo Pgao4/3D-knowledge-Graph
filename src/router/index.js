@@ -13,7 +13,7 @@ const routes = [
   {
     path: '/3dView',
     name: '3dView',
-    component: () => import(/* webpackChunkName: "about" */ '../views/3dView.vue')
+    component: () => import('../views/3dView.vue')
   }
 ]
 

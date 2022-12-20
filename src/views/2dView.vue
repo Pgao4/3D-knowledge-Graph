@@ -26,9 +26,9 @@ export default {
         nodes: [],
         links: []
       },
-      names: ['Role'],
-      labels: ['role'],
-      linkTypes: ['', 'love', 'family', 'enemy', 'work', 'friend', 'creation']
+      names: ['Male', 'Female', 'Phenotype'],
+      labels: ['Male', 'Female', 'Phenotype'],
+      linkTypes: ['']
     }
   },
   methods: {

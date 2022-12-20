@@ -66,17 +66,19 @@ export default {
       nodes: [],
       links: [],
       states: [],
-      nodeColors: ['#FFE4B5', '#FFFFFF'],
+      nodeColors: ['#55cccc', '#aaaaff', '#4e88af', '#ca635f','#FFC0CB', '#BA55D3', '#1E90FF', '#7FFFD4','#FFFF00'],
       selectNodeData: {}, 
       temp: {}, 
       dialogFormVisible: false,
       isEdit: true,
       nodeObjMap: {
-        'id': 'ID',
-        'status': 'Status',
-        'race': 'Race',
-        'name': 'Name',
-        'fullname': 'Full-Name'
+        'sex': 'Sex',
+        'degree': 'Degree',
+        'Label': 'Label',
+        'agegroup': 'AgeGroup',
+        'name': 'ID',
+        'affected': 'Affected',
+        'age': 'Age'
       }
     }
   },
@@ -90,7 +92,6 @@ export default {
     // update view
     update () {
       this.graph = require('../data/records.json')
-      console.log(this.graph.length)
       this.neoJsonParser(this.graph)
       document.getElementById('3d-graph').innerHTML = ''
       this.threeRender()
@@ -143,13 +144,23 @@ export default {
         .backgroundColor('#9dadc1')
         .nodeRelSize(7)
         .nodeColor(node => {
-          return this.nodeColors[0]
+          let index = 0
+          switch(node.label) {
+            case this.labels[2]: index=2; break;
+            case this.labels[1]: index=1; break;
+            case this.labels[0]: break;
+            default: index=3; break;
+          }
+          return this.nodeColors[index]
         })
         .nodeThreeObject(node => {
-          const sprite = new SpriteText(node.properties.fullname)
+          const sprite = new SpriteText(node.properties.name)
           sprite.material.depthWrite = false // make sprite background transparent
-          sprite.color = this.nodeColors[1]
-          sprite.textHeight = 6
+          let i = 0;
+          for(;i<this.labels.length;i++) 
+            if(node.label === this.labels[i]) break;
+          sprite.color = this.nodeColors[i]
+          sprite.textHeight = 8
           return sprite
         })
         .nodeThreeObjectExtend(true)
@@ -177,6 +188,9 @@ export default {
           this.$set(this.selectNodeData, 'id', node.id)
           this.$set(this.selectNodeData, 'name', node.properties.name)
           let i = 0
+          for (;i < this.labels.length;i++) {
+            if (node.label === this.labels[i]) break
+          }
           this.$set(this.selectNodeData, 'color', this.nodeColors[i])
           this.$set(this.selectNodeData, 'properties', node.properties)
         })
